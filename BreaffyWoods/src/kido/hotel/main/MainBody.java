@@ -16,7 +16,6 @@ public class MainBody extends javax.swing.JFrame {
 
     private CardLayout cardLayout;
     private JPanel contentPanel;
-    private Supplies suppliesPanel; // Guardamos la instancia
 
     /**
      * Creates new form GuestSupplies
@@ -25,27 +24,6 @@ public class MainBody extends javax.swing.JFrame {
 
         initComponents();
         setupCardLayout(); // Configura CardLayout correctamente
-    }
-
-   private void setupCardLayout() {
-        cardLayout = new CardLayout();
-        contentPanel = new JPanel(cardLayout);
-
-        suppliesPanel = new Supplies(); // Instancia única
-
-        contentPanel.add(new JPanel(), "Home");
-        contentPanel.add(suppliesPanel, "Supplies");
-
-        setContentPane(contentPanel); // Evita elementos duplicados
-        showPanel("Supplies");
-        revalidate();
-        repaint();
-    }
-
-    public void showPanel(String panelName) {
-        cardLayout.show(contentPanel, panelName);
-        contentPanel.revalidate();
-        contentPanel.repaint();
     }
 
     /**
@@ -59,21 +37,45 @@ public class MainBody extends javax.swing.JFrame {
 
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
-        jMenu1 = new javax.swing.JMenu();
+        jMItems = new javax.swing.JMenu();
+        jMUser = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Guest Supplies Register");
 
         jMenu3.setText("Registry");
+        jMenu3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu3MouseClicked(evt);
+            }
+        });
         jMenuBar1.add(jMenu3);
 
-        jMenu2.setText("Items");
-        jMenuBar1.add(jMenu2);
+        jMItems.setText("Items");
+        jMItems.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMItemsMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMItems);
 
-        jMenu1.setText("Users");
-        jMenuBar1.add(jMenu1);
+        jMUser.setText("Users");
+        jMUser.addMenuKeyListener(new javax.swing.event.MenuKeyListener() {
+            public void menuKeyPressed(javax.swing.event.MenuKeyEvent evt) {
+                jMUserMenuKeyPressed(evt);
+            }
+            public void menuKeyReleased(javax.swing.event.MenuKeyEvent evt) {
+            }
+            public void menuKeyTyped(javax.swing.event.MenuKeyEvent evt) {
+            }
+        });
+        jMUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMUserMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMUser);
 
         jMenu4.setText("Logout");
         jMenu4.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
@@ -95,26 +97,67 @@ public class MainBody extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jMUserMenuKeyPressed(javax.swing.event.MenuKeyEvent evt) {//GEN-FIRST:event_jMUserMenuKeyPressed
+
+    }//GEN-LAST:event_jMUserMenuKeyPressed
+
+    private void jMUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMUserMouseClicked
+        showPanel("Users");
+
+    }//GEN-LAST:event_jMUserMouseClicked
+
+    private void jMItemsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMItemsMouseClicked
+        
+    }//GEN-LAST:event_jMItemsMouseClicked
+
+    private void jMenu3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu3MouseClicked
+        // TODO add your handling code here:
+        showPanel("Supplies");
+    }//GEN-LAST:event_jMenu3MouseClicked
+    private void setupCardLayout() {
+        
+        cardLayout = new CardLayout();
+        contentPanel = new JPanel(cardLayout);
+
+        // Agregamos los paneles reutilizando el método
+        addPanelToCardLayout(new JPanel(), "Home");
+        addPanelToCardLayout(new Supplies(), "Supplies");
+        addPanelToCardLayout(new Users(), "Users");
+
+        setContentPane(contentPanel);
+        showPanel("Supplies");
+    }
+
+    private void addPanelToCardLayout(JPanel panel, String name) {
+        contentPanel.add(panel, name);
+    }
+
+    public void showPanel(String panelName) {
+        cardLayout.show(contentPanel, panelName);
+        contentPanel.revalidate();
+        contentPanel.repaint();
+    }
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
         SwingUtilities.invokeLater(() -> new MainBody().setVisible(true));
         try {
-    for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-        if ("Windows".equals(info.getName())) { // Usa el estilo de Windows
-            UIManager.setLookAndFeel(info.getClassName());
-            break;
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Windows".equals(info.getName())) { // Usa el estilo de Windows
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    }
-} catch (Exception e) {
-    e.printStackTrace();
-}
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMItems;
+    private javax.swing.JMenu jMUser;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
